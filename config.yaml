@@ -1,0 +1,5 @@
+options:
+  repo:
+    type: string
+    description: The github repo url to clone from
+    default: ""
