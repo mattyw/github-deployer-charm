@@ -1,5 +1,6 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import os
+import pwd
 import subprocess
 
 # Load modules from $CHARM_DIR/lib
@@ -9,13 +10,40 @@ sys.path.append('lib')
 from charmhelpers.core import hookenv
 from charmhelpers.fetch import install_remote
 
+def run_command_as_user(cmd, cwd, user):
+    pw_record = pwd.getpwnam(user)
+    user_name      = pw_record.pw_name
+    user_home_dir  = pw_record.pw_dir
+    user_uid       = pw_record.pw_uid
+    user_gid       = pw_record.pw_gid
+    env = os.environ.copy()
+    env[ 'HOME'     ]  = user_home_dir
+    env[ 'LOGNAME'  ]  = user_name
+    env[ 'PWD'      ]  = cwd
+    env[ 'USER'     ]  = user_name
+    process = subprocess.Popen(
+        cmd, preexec_fn=demote(user_uid, user_gid), cwd=cwd, env=env
+    )
+    result = process.wait()
+    return result
+
+
+def demote(user_uid, user_gid):
+    def result():
+        os.setgid(user_gid)
+        os.setuid(user_uid)
+    return result
+
 source = hookenv.action_get("source")
 if source != "":
     hookenv.status_set('waiting', 'fetching %s' % source)
     dest = install_remote(source)
     hookenv.status_set('waiting', 'deploying %s' % source)
-    subprocess.check_call(
+    output = run_command_as_user(
         os.path.join(dest, "remote-deployer"),
-        cwd=dest,
+        dest,
+	"ubuntu",
         )
+    hookenv.action_set({"output":  output})
     hookenv.status_set('active', 'Ready')
+
