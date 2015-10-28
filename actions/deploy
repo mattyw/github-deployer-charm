@@ -1,0 +1,21 @@
+#!/usr/bin/python
+import os
+import subprocess
+
+# Load modules from $CHARM_DIR/lib
+import sys
+sys.path.append('lib')
+
+from charmhelpers.core import hookenv
+from charmhelpers.fetch import install_remote
+
+source = hookenv.action_get("source")
+if source != "":
+    hookenv.status_set('waiting', 'fetching %s' % source)
+    dest = install_remote(source)
+    hookenv.status_set('waiting', 'deploying %s' % source)
+    subprocess.check_call(
+        os.path.join(dest, "remote-deployer"),
+        cwd=dest,
+        )
+    hookenv.status_set('active', 'Ready')

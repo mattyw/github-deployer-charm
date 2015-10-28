@@ -1,0 +1,9 @@
+#!/usr/bin/python
+import os
+
+# Load modules from $CHARM_DIR/lib
+import sys
+sys.path.append('lib')
+
+from charmhelpers.core import hookenv
+hookenv.action_set({"output": os.listdir("fetched")})

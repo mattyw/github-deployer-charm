@@ -17,7 +17,7 @@ def config_changed():
             hookenv.status_set('waiting', 'cloned %s' % repo)
             # Consider payloads
             subprocess.check_call(
-                os.path.join(dest, "github-deployer"),
+                os.path.join(dest, "remote-deployer"),
                 cwd=dest,
                 )
             hookenv.status_set('active', 'Ready')

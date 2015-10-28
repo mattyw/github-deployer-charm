@@ -1,6 +1,6 @@
-name: github-deployer
-summary: The github deployer
+name: remote-deployer
+summary: The remote deployer
 maintainer: MattyW <gh@mattyw.net>
 description: |
-    This charm clones a github repo from the given url and runs the github-deployer
-    command contained in the repo to setup whatever came from the repo.
+    This charm copys a remote file tree using the given source and runs the remote-deployer
+    command contained in the directory to setup whatever is contained in the directory.

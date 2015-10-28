@@ -1,5 +1,5 @@
 options:
   repo:
     type: string
-    description: The github repo url to clone from
+    description: The remote location to copy from
     default: ""

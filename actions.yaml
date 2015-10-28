@@ -1,0 +1,16 @@
+deploy:
+  description: Installs a new remote file tree
+  params:
+    source:
+      type: string
+      description: The remote tree to copy from
+  required: [source]
+remove:
+  description: Removes a remote file tree that was previously deployed
+  params:
+    source:
+      type: string
+      description: The name of the directory to remove
+  required: [source]
+list:
+  description: Lists the currently installed remote file trees
