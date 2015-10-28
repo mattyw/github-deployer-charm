@@ -4,13 +4,13 @@ This charm copies remote file trees to the unit, then runs any remote-deployer
 file found within this directory to perform any desired setup.
 
 remote paths can be copied using charm config:
-```bash
+```
 juju deploy remote-deployer
 juju set remote-deployer/0 http://github.com/myname/myrepo
 ```
 
 or actions:
-```bash
+```
 juju deploy remote-deployer
 juju action do remote-deployer/0 deploy source=http://github.com/myname/myrepo
 ```
